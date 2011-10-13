@@ -16,9 +16,12 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '.', 'lib'))
 	# -----	Read OSM data
 	# 		(typing 'export OSMLIB_XML_PARSER=Expat' beforehand may speed things up)
 
+	puts "Reading file"
 	db = OSM::Database.new
 	parser = OSM::StreamParser.new(:filename => 'charlbury.osm', :db => db)
 	parser.parse
+
+	puts "Creating dictionary"
 	dictionary = StyleParser::Dictionary.instance
 	dictionary.populate(db)
 
@@ -34,7 +37,9 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '.', 'lib'))
 	
 	# -----	Output the map
 	
+	puts "Drawing map"
+	start=Time.now
 	Prawn::Document.generate('map.pdf', :page_size=>'A4') do |pdf| 
 		spec.draw(pdf,ruleset,db)
 	end
-	puts "map.pdf generated"
+	puts "map.pdf generated in #{Time.now-start} seconds"
