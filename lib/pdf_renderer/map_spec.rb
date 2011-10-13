@@ -18,7 +18,8 @@ module PDFRenderer
 			@minscale=12
 			@maxscale=20
 			@scale   =14
-			@properties=[]
+			@properties={}
+			@offsetways={}
 		end
 
 		def init_projection
@@ -196,6 +197,8 @@ module PDFRenderer
 			end
 			if offset==0 then return points end
 			
+			unless @offsetways[way.id] then @offsetways[way.id]={} end
+			if @offsetways[way.id][offset] then return @offsetways[way.id][offset] end
 			parallel=[]
 			offsetx=[]
 			offsety=[]
@@ -227,7 +230,7 @@ module PDFRenderer
 				parallel << [ points[i][0] + offset*(offsetx[k]+df*(points[i][0] - points[k][0])),
 				              points[i][1] + offset*(offsety[k]+df*(points[i][1] - points[k][1])) ]
 			end
-			parallel
+			@offsetways[way.id][offset]=parallel
 		end
 		
 		def det(a,b,c,d)
