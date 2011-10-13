@@ -14,8 +14,9 @@ module PDFRenderer
 			pathlength=0
 
 			# Get tags
-			tags = TagsBinding.new(way)
-			if (way.is_closed?) then tags[':area']='yes' end
+			states = {}
+			if (way.is_closed?) then states[':area']='yes' end
+			tags = TagsBinding.new(way,states)
 
 			# Get stylelist
 			stylelist=@rules.get_styles(way, tags, @spec.scale)
@@ -43,9 +44,10 @@ module PDFRenderer
 			dictionary=StyleParser::Dictionary.instance
 
 			# Get tags
-			tags = TagsBinding.new(node)
-			if !dictionary.has_parent_ways(node) then tags[':poi']='yes'
-			elsif dictionary.num_parent_ways(node)>1 then tags[':junction']='yes' end
+			states = {}
+			if !dictionary.has_parent_ways(node) then states[':poi']='yes'
+			elsif dictionary.num_parent_ways(node)>1 then states[':junction']='yes' end
+			tags = TagsBinding.new(node,states)
 			# ** do hasInterestingTags
 			
 			# Find style
