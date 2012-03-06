@@ -27,11 +27,12 @@ See pdf_test.rb. In short:
 
 == To do ==
 
-* Dashes for casing
-* Dash decoration
 * Better text offset
-* Bold, italic, underline
-* Labels for areas
+
+== Not currently supported ==
+
+* Dash decoration (arrows etc.)
+* Underline
 
 == Licence and author ==
 

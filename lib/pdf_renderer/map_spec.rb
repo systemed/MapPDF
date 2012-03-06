@@ -126,13 +126,14 @@ module PDFRenderer
 				end
 				heading[way.nodes.length-1]=heading[way.nodes.length-2]
 
+				patharea/=2
 				@properties[way.id]={}
 				@properties[way.id]['heading']=heading
 				@properties[way.id]['length' ]=pathlength/@boxscale
-				@properties[way.id]['area'   ]=patharea/2
+				@properties[way.id]['area'   ]=patharea
 				if patharea!=0 && way.is_closed? then
-					@properties[way.id]['centroid_x']=x(cx/patharea/6);
-					@properties[way.id]['centroid_y']=y_from_latp(cy/patharea/6);
+					@properties[way.id]['centroid_x']=x(cx/patharea/6)
+					@properties[way.id]['centroid_y']=y_from_latp(cy/patharea/6)
 				elsif pathlength>0
 					@properties[way.id]['centroid_x'], @properties[way.id]['centroid_y'], dummy = point_at(way,0.5,pathlength)
 				end

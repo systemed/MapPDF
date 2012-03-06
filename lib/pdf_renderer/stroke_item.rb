@@ -25,17 +25,12 @@ module PDFRenderer
 				if dashes.length==1 then pdf.dash(dashes[0]) else pdf.dash(dashes[0], :space=>dashes[1]) end
 				# ** https://github.com/sandal/prawn/issues/276
 				# we probably need to implement our own routine as a fallback so that we can do arrow decoration
+				# (also add to casing-dashes when we've done it)
 			end
-			
 			
 			pdf.transparent(@style.get(@tags,'opacity',1).to_f) do
 				StrokeItem.draw_line(pdf, spec, @entity)
-				# ** the multipolygon loop is shared code with fill_item - we could probably abstract it into drawing_item
-				multipolygons.each do |multi|
-					dictionary.relation_loaded_members(@entity.db,multi,'inner').each do |obj|
-						if obj.type=='way' then StrokeItem.draw_line(pdf, spec, obj) end
-					end
-				end
+				draw_inners
 				pdf.stroke
 			end
 			if @style.defined('dashes') then pdf.undash end

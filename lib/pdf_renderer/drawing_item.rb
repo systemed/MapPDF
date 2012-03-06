@@ -10,5 +10,16 @@ module PDFRenderer
 		def get_sublayer
 			@style.sublayer
 		end
+		
+		def draw_inners
+			dictionary=StyleParser::Dictionary.instance
+			multipolygons=dictionary.parent_relations_of_type(@entity,'multipolygon','outer')
+			multipolygons.each do |multi|
+				dictionary.relation_loaded_members(@entity.db,multi,'inner').each do |obj|
+					if obj.type=='way' then StrokeItem.draw_line(pdf, spec, obj) end
+				end
+			end
+		end
+		
 	end
 end
