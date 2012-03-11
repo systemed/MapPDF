@@ -1,6 +1,3 @@
-require "rquad"
-include RQuad
-
 module PDFRenderer
 	class MapSpec
 
@@ -30,8 +27,8 @@ module PDFRenderer
 			@boxwidth =(@maxlon-@minlon)/@boxscale
 			@boxheight=(maxlatp-@baselatp)/@boxscale
 
-			@quadtree=QuadTree.new(Vector.new(@boxoriginx, @boxoriginy+@boxheight), 
-			                       Vector.new(@boxoriginx+@boxwidth, @boxoriginy))
+			@quadtree=QuadTree.new(QuadVector.new(@boxoriginx, @boxoriginy+@boxheight), 
+			                       QuadVector.new(@boxoriginx+@boxwidth, @boxoriginy))
 		end
 
 		def set_pagesize(size,margin)
@@ -171,15 +168,15 @@ module PDFRenderer
 		
 		def add_to_collide_map(x,y,xradius,yradius,item,sub_id=nil)
 			begin
-				@quadtree.add(QuadTreePayload.new(Vector.new(x,y), CollisionObject.new(x,y,xradius,yradius,item,sub_id)))
+				@quadtree.add(QuadTreePayload.new(QuadVector.new(x,y), CollisionObject.new(x,y,xradius,yradius,item,sub_id)))
 			rescue
 			end
 		end
 		
 		def space_at(x,y,xradius,yradius,scanmargin=10)
 			begin
-				@quadtree.payloads_in_region(Vector.new(x-xradius-scanmargin,y+yradius+scanmargin), 
-				                             Vector.new(x+xradius+scanmargin,y-yradius-scanmargin)).each do |payload|
+				@quadtree.payloads_in_region(QuadVector.new(x-xradius-scanmargin,y+yradius+scanmargin), 
+				                             QuadVector.new(x+xradius+scanmargin,y-yradius-scanmargin)).each do |payload|
 					if payload.data.collides_with(x,y,xradius,yradius) then return false end
 				end
 				return true
