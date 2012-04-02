@@ -11,7 +11,7 @@ module PDFRenderer
 			@style.sublayer
 		end
 		
-		def draw_inners
+		def draw_inners(pdf,spec)
 			dictionary=StyleParser::Dictionary.instance
 			multipolygons=dictionary.parent_relations_of_type(@entity,'multipolygon','outer')
 			multipolygons.each do |multi|

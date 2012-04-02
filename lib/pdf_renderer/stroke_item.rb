@@ -30,7 +30,7 @@ module PDFRenderer
 			
 			pdf.transparent(@style.get(@tags,'opacity',1).to_f) do
 				StrokeItem.draw_line(pdf, spec, @entity)
-				draw_inners
+				draw_inners(pdf, spec)
 				pdf.stroke
 			end
 			if @style.defined('dashes') then pdf.undash end
