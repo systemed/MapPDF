@@ -31,11 +31,13 @@ module PDFRenderer
 			                       QuadVector.new(@boxoriginx+@boxwidth, @boxoriginy))
 		end
 
-		def set_pagesize(size,margin)
+		def set_pagesize(size,options={})
+			margin=options[:margin] ? options[:margin] : 0
 			@boxheight =size['height']-margin*2
 			@boxwidth  =size['width' ]-margin*2
 			@boxoriginx=margin
 			@boxoriginy=margin
+			if (options[:landscape]) then @boxheight,@boxwidth=@boxwidth,@boxheight end
 		end
 		
 		def draw(pdf,ruleset,db)

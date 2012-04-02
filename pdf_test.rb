@@ -28,7 +28,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '.', 'lib'))
 	# -----	Create a MapSpec
 	
 	spec=PDFRenderer::MapSpec.new
-	spec.set_pagesize(PDFRenderer::MapSpec::A4, 10)
+	spec.set_pagesize(PDFRenderer::MapSpec::A4, :margin=>10)
 	spec.minlon=-1.50; spec.minlat=51.86
 	spec.maxlon=-1.47; spec.maxlat=51.89
 	spec.minscale=12; spec.maxscale=18; spec.scale=15
